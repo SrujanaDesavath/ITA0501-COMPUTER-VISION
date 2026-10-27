@@ -1,0 +1,23 @@
+import cv2
+import matplotlib.pyplot as plt
+
+path = r"C:\Users\sruja\OneDrive\Desktop\lion.jpg"
+
+img = cv2.imread(path)
+
+if img is None:
+    print("Image not found. Check the image path.")
+else:
+    colors = ('b', 'g', 'r')
+
+
+for i, color in enumerate(colors):
+    histogram = cv2.calcHist([img], [i], None, [256], [0, 256])
+    plt.plot(histogram, color=color)
+
+plt.title("Color Histogram Analysis")
+plt.xlabel("Pixel Intensity")
+plt.ylabel("Number of Pixels")
+plt.xlim([0, 256])
+plt.show()
+
