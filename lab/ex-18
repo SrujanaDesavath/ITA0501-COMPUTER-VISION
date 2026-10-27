@@ -1,0 +1,31 @@
+import cv2
+
+image = cv2.imread(r"C:\Users\sruja\OneDrive\Desktop\lion.jpg")
+
+if image is None:
+    print("Image not found. Check the image path.")
+else:
+    cv2.imshow("Original Image", image)
+
+    roi = cv2.selectROI("Original Image", image)
+
+    x, y, w, h = roi
+
+    if w > 0 and h > 0:
+        cropped = image[y:y+h, x:x+w].copy()
+
+        result = image.copy()
+        result[0:h, 0:w] = cropped
+
+        cv2.imshow("Cropped Image", cropped)
+        cv2.imshow("Final Image", result)
+
+        cv2.imwrite(
+            r"C:\Users\sruja\OneDrive\Desktop\roi_output.jpg",
+            result
+        )
+
+        print("ROI operation completed successfully.")
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
