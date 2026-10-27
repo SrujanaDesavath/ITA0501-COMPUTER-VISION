@@ -1,0 +1,52 @@
+import cv2
+import matplotlib.pyplot as plt
+
+# Read the input image
+image = cv2.imread(r"C:\Users\sruja\OneDrive\Desktop\lion.jpg")
+
+if image is None:
+    print("Error: Image not found. Check the file path.")
+else:
+    # Convert image to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Create a 3x3 kernel
+    kernel = cv2.getStructuringElement(
+        cv2.MORPH_RECT, (3, 3)
+    )
+
+    # Apply Top-Hat operation
+    tophat = cv2.morphologyEx(
+        gray, cv2.MORPH_TOPHAT, kernel
+    )
+
+    # Display the images
+    plt.figure(figsize=(10, 5))
+
+    plt.subplot(1, 3, 1)
+    plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+    plt.title("Original Image")
+    plt.axis("off")
+
+    plt.subplot(1, 3, 2)
+    plt.imshow(gray, cmap="gray")
+    plt.title("Grayscale Image")
+    plt.axis("off")
+
+    plt.subplot(1, 3, 3)
+    plt.imshow(tophat, cmap="gray")
+    plt.title("Top-Hat Image")
+    plt.axis("off")
+
+    plt.tight_layout()
+    plt.show()
+
+    # Save the output image
+    cv2.imwrite(
+        r"C:\Users\sruja\OneDrive\Desktop\tophat_output.jpg",
+        tophat
+    )
+
+    print("Top-Hat operation completed successfully!")
+    print("Output saved as tophat_output.jpg")
+
