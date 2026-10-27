@@ -1,0 +1,49 @@
+
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+path = r"C:\Users\sruja\OneDrive\Desktop\lion.jpg"
+
+img = cv2.imread(path)
+
+if img is None:
+    print("Image not found. Check the image path.")
+else:
+    rows, cols = img.shape[:2]
+
+    # Select three points from the original image
+    pts1 = np.float32([
+        [50, 50],
+        [200, 50],
+        [50, 200]
+    ])
+
+    # Select their new positions
+    pts2 = np.float32([
+        [10, 100],
+        [200, 50],
+        [100, 250]
+    ])
+
+    # Calculate affine transformation matrix
+    matrix = cv2.getAffineTransform(pts1, pts2)
+
+    # Apply affine transformation
+    transformed = cv2.warpAffine(img, matrix, (cols, rows))
+
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    transformed_rgb = cv2.cvtColor(transformed, cv2.COLOR_BGR2RGB)
+
+    plt.subplot(1, 2, 1)
+    plt.imshow(img_rgb)
+    plt.title("Original Image")
+    plt.axis("off")
+
+    plt.subplot(1, 2, 2)
+    plt.imshow(transformed_rgb)
+    plt.title("Affine Transformed Image")
+    plt.axis("off")
+
+    plt.show()
+
