@@ -1,1 +1,23 @@
+from PIL import Image, ImageFilter
+image_path = r"C:\Users\sruja\OneDrive\Desktop\lion.avif"
+
+
+img = Image.open(image_path)
+
+
+img.show()
+
+
+blurred_img = img.filter(ImageFilter.GaussianBlur(radius=5))
+
+
+blurred_img.show()
+
+
+output_path = r"C:\Users\sruja\OneDrive\Desktop\lion_blurred.png"
+blurred_img.save(output_path)
+
+print("Original image:", image_path)
+print("Gaussian Blur applied successfully!")
+print("Blurred image saved at:", output_path)
 
