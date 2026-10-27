@@ -1,0 +1,28 @@
+import os
+import cv2
+
+path = r"C:\Users\sruja\OneDrive\Desktop\lion.avif"
+
+print("Checking image path...")
+
+if os.path.exists(path):
+    print("Image file exists!")
+else:
+    print("Image file does not exist!")
+
+img = cv2.imread(path)
+
+if img is None:
+    print("OpenCV cannot read this image.")
+    print("Please convert AVIF to JPG.")
+else:
+    print("Image loaded successfully!")
+
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    edges = cv2.Canny(gray, 100, 200)
+
+    cv2.imshow("Original Image", img)
+    cv2.imshow("Lion Outline", edges)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
