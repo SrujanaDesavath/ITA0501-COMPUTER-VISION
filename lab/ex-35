@@ -1,0 +1,36 @@
+import cv2
+import numpy as np
+from PIL import Image
+import pillow_avif
+
+# Function to add text on an image
+def add_text():
+
+    # Read the input image
+    image = Image.open(r"C:\Users\sruja\OneDrive\Desktop\lion.jpg.avif")
+
+    # Convert image to OpenCV format
+    image = np.array(image.convert("RGB"))
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+    # Get text from user
+    text = input("Enter the text to display on image: ")
+
+    # Add text to image
+    cv2.putText(image, text, (50, 100),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1, (0, 0, 255), 2)
+
+    # Display image
+    cv2.imshow("Image with Text", image)
+
+    # Save output image
+    cv2.imwrite("text_image.jpg", image)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    print("Text added successfully!")
+
+# Call function
+add_text()
