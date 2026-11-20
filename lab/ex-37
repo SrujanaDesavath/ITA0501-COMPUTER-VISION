@@ -1,0 +1,50 @@
+import cv2
+import numpy as np
+from PIL import Image
+import pillow_avif
+
+# Function to subtract foreground based on color levels
+def remove_foreground():
+
+    # Read input image
+    image = Image.open(r"C:\Users\sruja\OneDrive\Desktop\lion.jpg.avif")
+
+    # Convert image to RGB
+    image = np.array(image.convert("RGB"))
+
+    # Convert RGB to HSV
+    hsv = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
+
+    # Define foreground color range
+    lower = np.array([0, 0, 0])
+    upper = np.array([180, 255, 100])
+
+    # Create foreground mask
+    mask = cv2.inRange(hsv, lower, upper)
+
+    # Subtract foreground
+    result = cv2.bitwise_and(image, image,
+                             mask=cv2.bitwise_not(mask))
+
+    # Display original image
+    cv2.imshow("Original Image",
+               cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
+
+    # Display foreground mask
+    cv2.imshow("Foreground Mask", mask)
+
+    # Display output image
+    cv2.imshow("Foreground Subtracted Image",
+               cv2.cvtColor(result, cv2.COLOR_RGB2BGR))
+
+    # Save output
+    cv2.imwrite("foreground_subtracted.jpg",
+                cv2.cvtColor(result, cv2.COLOR_RGB2BGR))
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    print("Foreground subtraction completed successfully!")
+
+# Call function
+remove_foreground()
