@@ -1,0 +1,47 @@
+import cv2
+import numpy as np
+from PIL import Image
+import pillow_avif
+
+# Function to count faces
+def count_faces():
+
+    # Read input image
+    image = Image.open(r"C:\Users\sruja\OneDrive\Desktop\lion.jpg.avif")
+
+    # Convert image to RGB
+    image = np.array(image.convert("RGB"))
+
+    # Convert image to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+
+    # Load Haar Cascade classifier
+    cascade_path = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+    face_cascade = cv2.CascadeClassifier(cascade_path)
+
+    # Detect faces
+    faces = face_cascade.detectMultiScale(
+        gray, scaleFactor=1.1, minNeighbors=5
+    )
+
+    # Draw rectangles around detected faces
+    for (x, y, w, h) in faces:
+        cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+    # Count faces
+    print("Total number of faces:", len(faces))
+
+    # Display output image
+    output = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    cv2.imshow("Face Detection", output)
+
+    # Save output image
+    cv2.imwrite("face_detection.jpg", output)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    print("Face detection completed successfully!")
+
+# Call function
+count_faces()
