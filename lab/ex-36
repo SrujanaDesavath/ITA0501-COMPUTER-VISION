@@ -1,0 +1,47 @@
+import cv2
+import numpy as np
+from PIL import Image
+import pillow_avif
+
+# Function to subtract background based on color levels
+def remove_background():
+
+    # Read input image
+    image = Image.open(r"C:\Users\sruja\OneDrive\Desktop\lion.jpg.avif")
+
+    # Convert image to RGB
+    image = np.array(image.convert("RGB"))
+
+    # Convert RGB to HSV color space
+    hsv = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
+
+    # Define color range for background
+    lower = np.array([0, 0, 180])
+    upper = np.array([180, 60, 255])
+
+    # Create mask based on color levels
+    mask = cv2.inRange(hsv, lower, upper)
+
+    # Subtract background
+    result = cv2.bitwise_and(image, image, mask=cv2.bitwise_not(mask))
+
+    # Display original image
+    cv2.imshow("Original Image", cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
+
+    # Display background mask
+    cv2.imshow("Background Mask", mask)
+
+    # Display output image
+    cv2.imshow("Background Removed Image", cv2.cvtColor(result, cv2.COLOR_RGB2BGR))
+
+    # Save output
+    cv2.imwrite("background_removed.jpg",
+                cv2.cvtColor(result, cv2.COLOR_RGB2BGR))
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    print("Background subtraction completed successfully!")
+
+# Call function
+remove_background()
